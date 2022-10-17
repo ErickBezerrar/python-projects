@@ -1,7 +1,8 @@
 valor = int(input("Informe um número inteiro e positivo:"))
-if valor < 0():
-    print("Digite um número inteiro e positivo ")
+if valor < 0:
     fatorial = 1
     for i in range(valor):
         fatorial = fatorial * valor
         print(fatorial)
+else:
+    print("Rode o programa novamente e insira um número correto")
