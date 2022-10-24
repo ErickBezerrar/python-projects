@@ -7,5 +7,4 @@ print("Analisando o número {} temos".format(num))
 print("Unidade: {}".format(unidade))
 print("Dezena: {}".format(dezena))
 print("Centena: {}".format(centena))
-
 print("Milhar: {}".format(milhar))
