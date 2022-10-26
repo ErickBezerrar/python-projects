@@ -1,15 +1,33 @@
 import math
-import 
+import numpy as np
+import matplotlib
 
-a = int(input("informe um valor: "))
-b = int(input("informe um valor: "))
-f = 0
+def calculafuncao(funcao, t):
+    funcao = funcao.replace("x", str(t))
+    resposta = eval(funcao)
+    return float (resposta)
+
+def funcaotaxa(funcao,a,b):
+    taxa = (calculafuncao(funcao,b) - calculafuncao(funcao,a))/ (b - a)
+    return taxa
+
+
+def funcaoderivada(funcao,x,h):
+    Df = (calculafuncao(funcao, x + h) - calculafuncao(funcao, x))/h
+    return Df
+
+def testatmv(funcao, lista, a,b,h):
+    for i in lista:
+        if round(funcaoderivada(funcao,i,h), 2) == funcaotaxa(funcao, a,b):
+            print(i)
+
+a = float(input("informe um valor: "))
+b = float(input("informe um valor: "))
+funcao = input("Digite sua funcão: ")
+lista = []
 h = 0.0001
 
-
-def testatmv(f,a,b):
-    for x in range(a,b,0.0001):
-        print(x)
-
-
-testatmv(f,a,b)
+for i in np.arange(a,b,0.001):
+    lista.append(i)
+    
+print(testatmv(funcao, lista,a,b,h))
