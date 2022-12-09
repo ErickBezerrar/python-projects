@@ -1,21 +1,9 @@
-limiteInferior = 50
-limiteSuperior = 189
-numeroDePontos = 1000
-h = (limiteSuperior - limiteInferior) / (numeroDePontos - 1)
+from sympy import *
+init_printing(pretty_print=true)
 
-vX = []
-vY = []
+x = Symbol('x')
 
-i = limiteInferior
-while i <= limiteSuperior:
-    x = i
-    y = x
-    vX.append(x)
-    vY.append(y)
-    i += h
+Integral(x**5)
 
-sum = 0
-for i in range(len(vX) - 1):
-    sum += ((vY[i] + vY[i + 1]) * h) / 2
-
-print("Solução = " + str(sum))
+y = Integral(x**5).doit( )
+print(y)                        #Passo a passo para resolução da integral
