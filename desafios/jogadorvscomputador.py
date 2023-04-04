@@ -1,7 +1,6 @@
 from random import randint
 
 computador = randint(1,10)
-print(computador)
 jogador = int(input("Informe um número entre 1 e 10: "))
 
 

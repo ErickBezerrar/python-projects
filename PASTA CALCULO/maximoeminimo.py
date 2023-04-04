@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+from math import*
 
 listFunX = []
 listFunY = []
@@ -18,7 +19,7 @@ def calNumEnt(a, b):
     listFunY.append(funY)
 
 def f(x):
-  y = -x*3 + 12 * x*2 + 60 * x - 4
+  y = (16-x**2)**(1/2)
 
   return y
 
