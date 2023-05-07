@@ -20,5 +20,4 @@ plt.show()
 
 print("O polinômio interpolador é: ")
 print(f"p(t) = {coefficients[5]:.4f} + {coefficients[4]:.4f}t + {coefficients[3]:.4f}t^2 + {coefficients[2]:.4f}t^3 + {coefficients[1]:.4f}t^4 + {coefficients[0]:.4f}t^5")
-
 print(f"A força estimada na velocidade de {velocity_estimate} ft/sec é de {force_estimate:.4f} lb.")
