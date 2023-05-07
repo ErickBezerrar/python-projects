@@ -16,6 +16,7 @@ plt.xlabel('Velocidade (100 ft/sec)')
 plt.ylabel('Força (100 lb)')
 plt.title('Dados e Polinômio Interpolador')
 plt.legend()
+plt.grid(True)
 plt.show()
 
 print("O polinômio interpolador é: ")
