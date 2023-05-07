@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 
 velocidade = [0, 2, 4, 6, 8, 10]
 forca = [0, 2.90, 14.8, 39.6, 74.3, 119]
-
 coeficientes = np.polyfit(velocidade, forca, 5)
 polinomial = np.poly1d(coeficientes)
 
