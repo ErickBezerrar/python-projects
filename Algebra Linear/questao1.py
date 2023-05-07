@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 
 x = np.array([1, 2, 3])
 y = np.array([6, 15, 28])
-
 A = np.array([[1, 1, 1],[1, 2, 4],[1, 3, 9]])
 b = np.array([6, 15, 28])
 
