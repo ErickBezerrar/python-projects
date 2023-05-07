@@ -10,6 +10,10 @@ polinomial = np.poly1d(coeficientes)
 velocidade_estimada = 750
 forca_estimada = polinomial(velocidade_estimada)
 
+print("O polinômio interpolador é: ")
+print(f"p(t) = {coeficientes[5]:.4f}t^5 + {coeficientes[4]:.4f}t^4 + {coeficientes[3]:.4f}t^3 + {coeficientes[2]:.4f}t^2 + {coeficientes[1]:.4f}t + {coeficientes[0]:.4f}")
+print(f"A força estimada na velocidade de {velocidade_estimada} ft/sec é de {forca_estimada:.4f} lb.")
+
 plt.scatter(velocidade, forca, color='red', label='Dados')
 plt.plot(velocidade, polinomial(velocidade), label='Polinômio Interpolador')
 plt.xlabel('Velocidade (100 ft/sec)')
@@ -18,7 +22,3 @@ plt.title('Dados e Polinômio Interpolador')
 plt.legend()
 plt.grid(True)
 plt.show()
-
-print("O polinômio interpolador é: ")
-print(f"p(t) = {coeficientes[5]:.4f}t^5 + {coeficientes[4]:.4f}t^4 + {coeficientes[3]:.4f}t^3 + {coeficientes[2]:.4f}t^2 + {coeficientes[1]:.4f}t + {coeficientes[0]:.4f}")
-print(f"A força estimada na velocidade de {velocidade_estimada} ft/sec é de {forca_estimada:.4f} lb.")
