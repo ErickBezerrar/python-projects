@@ -19,5 +19,5 @@ plt.legend()
 plt.show()
 
 print("O polinômio interpolador é: ")
-print(f"p(t) = {coeficientes[5]:.4f} + {coeficientes[4]:.4f}t + {coeficientes[3]:.4f}t^2 + {coeficientes[2]:.4f}t^3 + {coeficientes[1]:.4f}t^4 + {coeficientes[0]:.4f}t^5")
+print(f"p(t) = {coeficientes[5]:.4f}t^5 + {coeficientes[4]:.4f}t^4 + {coeficientes[3]:.4f}t^3 + {coeficientes[2]:.4f}t^2 + {coeficientes[1]:.4f}t + {coeficientes[0]:.4f}")
 print(f"A força estimada na velocidade de {velocidade_estimada} ft/sec é de {forca_estimada:.4f} lb.")
