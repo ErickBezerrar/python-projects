@@ -21,7 +21,7 @@ class InvestimentoGUI:
         frame = ttk.Frame(self.master, padding=10)
         frame.pack(expand=True, fill="both")
 
-        ttk.Label(frame, text="Valor Presente:").grid(column=0, row=0, sticky="w")
+        ttk.Label(frame, text="Valor Presente():").grid(column=0, row=0, sticky="w")
         self.valor_presente = ttk.Entry(frame)
         self.valor_presente.grid(column=1, row=0)
 
@@ -55,34 +55,41 @@ class InvestimentoGUI:
             self.tree.column(col, width=120, anchor="w")
         self.tree.grid(column=0, row=7, columnspan=2)
 
+    def calcular(self):
+        for i in self.tree.get_children():
+            self.tree.delete(i)
 
-        def calcular(self):
-            for i in self.tree.get_children():
-                self.tree.delete(i)
-
+        try:
             valor_presente = float(self.valor_presente.get().replace(",", "."))
             taxa_juros = float(self.taxa_juros.get().replace(",", "."))
             periodo_anos = int(self.periodo_anos.get())
             aporte_mensal = float(self.aporte_mensal.get().replace(",", "."))
-            aumento_anual = float(self.aumento_anual.get().replace(",", "."))
+            aumento_mensal = float(self.aumento_mensal.get().replace(",", "."))
+        except ValueError:
+            messagebox.showerror("Erro", "Por favor, preencha todos os campos corretamente.")
+            return
 
-            valores = []
-            valor_inicial = valor_presente
-            for i in range(1, periodo_anos+1):
-                juros = valor_inicial * taxa_juros / 100
-                valor_final = valor_inicial + juros
-                valores.append((i, valor_inicial, aporte_mensal * 12, juros, valor_final))
-                
-                for mes in range(12):
-                    valor_inicial += aporte_mensal
-                    aporte_mensal *= 1 + aumento_anual / 100
-                
-                valor_inicial = valor_final
+        if valor_presente <= 0 or taxa_juros <= 0 or periodo_anos <= 0 or aporte_mensal < 0 or aumento_mensal < 0:
+            messagebox.showerror("Erro", "Por favor, preencha todos os campos corretamente.")
+            return
 
-            self.valor_futuro.config(text="{:.2f}".format(valor_final))
+        valores = []
+        valor_inicial = valor_presente
+        for i in range(1, periodo_anos+1):
+            juros = valor_inicial * taxa_juros / 100
+            valor_final = valor_inicial + juros
+            valores.append((i, valor_inicial, aporte_mensal * 12, juros, valor_final))
 
-            for valor in valores:
-                self.tree.insert("", "end", values=valor)
+            for mes in range(12):
+                valor_inicial += aporte_mensal
+                aporte_mensal *= 1 + aumento_mensal / 100
+
+            valor_inicial = valor_final
+
+        self.valor_futuro.config(text="{:.2f}".format(valor_final))
+
+        for valor in valores:
+            self.tree.insert("", "end", values=valor)
 
 
 root = tk.Tk()
