@@ -8,7 +8,7 @@ class InvestimentoGUI:
     def __init__(self, master):
         self.master = master
         self.master.title("Cálculo de Juros Compostos")
-        self.master.geometry("1024x600")
+        self.master.geometry("920x600")
         self.master.resizable(True, True)
 
         style = ttk.Style(self.master)
@@ -44,7 +44,7 @@ class InvestimentoGUI:
         ttk.Button(frame, text="Calcular", command=self.calcular).grid(column=1, row=5, pady=10)
 
         columns = ("Ano", "Valor Inicial", "Aportes", "Juros", "Dividendos", "Valor Final")
-        self.tree = ttk.Treeview(frame, show="headings", columns=columns)
+        self.tree = ttk.Treeview(frame, show="headings", columns=columns, height=15)
         for col in columns:
             self.tree.heading(col, text=col.title())
             self.tree.column(col, width=150, anchor="w")
