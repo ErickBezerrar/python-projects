@@ -7,70 +7,82 @@ import ttkthemes as tkthemes
 class InvestimentoGUI:
     def __init__(self, master):
         self.master = master
-        master.title("Investimento")
-        
-        self.lbl_investimento = tk.Label(master, text="Investimento inicial:")
-        self.lbl_investimento.pack()
-        self.ent_investimento = tk.Entry(master)
-        self.ent_investimento.pack()
+        self.master.title("Cálculo de Juros Compostos")
+        self.master.geometry("800x600")
+        self.master.resizable(True, True)
 
-        self.lbl_aporte_inicial = tk.Label(master, text="Aporte mensal inicial:")
-        self.lbl_aporte_inicial.pack()
-        self.ent_aporte_inicial = tk.Entry(master)
-        self.ent_aporte_inicial.pack()
+        style = ttk.Style(self.master)
+        style.configure(".", anchor="w")
+        style.configure("TEntry", padding=5, relief="flat")
+        style.configure("TLabel", padding=5)
 
-        self.lbl_aumento_aporte_anual = tk.Label(master, text="Aumento anual do aporte em porcentagem:")
-        self.lbl_aumento_aporte_anual.pack()
-        self.ent_aumento_aporte_anual = tk.Entry(master)
-        self.ent_aumento_aporte_anual.pack()
+        style.theme_use("clam")
 
-        self.lbl_anos = tk.Label(master, text="Quantidade de anos do investimento:")
-        self.lbl_anos.pack()
-        self.ent_anos = tk.Entry(master)
-        self.ent_anos.pack()
-        
-        self.btn_calcular = tk.Button(master, text="Calcular", command=self.calcular)
-        self.btn_calcular.pack()
-        
-        self.tree = ttk.Treeview(master, columns=("Ano", "Valor Futuro"), style="Custom.Treeview")
-        self.tree.heading("#0", text="")
-        self.tree.heading("#1", text="Ano")
-        self.tree.heading("#2", text="Valor Futuro")
-        self.tree.pack()
+        frame = ttk.Frame(self.master, padding=10)
+        frame.pack(expand=True, fill="both")
 
-        style = tkthemes.ThemedStyle(master)
-        style.set_theme("arc")
-        style.configure("Custom.Treeview", background=style.lookup("TFrame", "background"), fieldbackground=style.lookup("TFrame", "background"))
+        ttk.Label(frame, text="Valor Presente:").grid(column=0, row=0, sticky="w")
+        self.valor_presente = ttk.Entry(frame)
+        self.valor_presente.grid(column=1, row=0)
+
+        ttk.Label(frame, text="Taxa de Juros (%):").grid(column=0, row=1, sticky="w")
+        self.taxa_juros = ttk.Entry(frame)
+        self.taxa_juros.grid(column=1, row=1)
+
+        ttk.Label(frame, text="Período (anos):").grid(column=0, row=2, sticky="w")
+        self.periodo_anos = ttk.Entry(frame)
+        self.periodo_anos.grid(column=1, row=2)
+
+        ttk.Label(frame, text="Aporte Mensal:").grid(column=0, row=3, sticky="w")
+        self.aporte_mensal = ttk.Entry(frame)
+        self.aporte_mensal.grid(column=1, row=3)
+
+        ttk.Label(frame, text="Aumento Anual (%):").grid(column=0, row=4, sticky="w")
+        self.aumento_anual = ttk.Entry(frame)
+        self.aumento_anual.grid(column=1, row=4)
+
+        ttk.Label(frame, text="Valor Futuro:").grid(column=0, row=5, sticky="w")
+        self.valor_futuro = ttk.Label(frame, text="")
+        self.valor_futuro.grid(column=1, row=5)
+
+        ttk.Button(frame, text="Calcular", command=self.calcular).grid(column=1, row=6, pady=10)
+
+        columns = ("Ano", "Valor Inicial", "Aportes", "Juros", "Valor Final")
+        self.tree = ttk.Treeview(frame, show="headings", columns=columns)
+        for col in columns:
+            self.tree.heading(col, text=col.title())
+            self.tree.column(col, width=120, anchor="w")
+        self.tree.grid(column=0, row=7, columnspan=2)
+
 
     def calcular(self):
-        investimento_inicial = float(self.ent_investimento.get())
-        aporte_mensal_inicial = float(self.ent_aporte_inicial.get())
-        aumento_aporte_anual = float(self.ent_aumento_aporte_anual.get())
-        taxa_juros = 0.1  # 10% ao ano.
-        anos = int(self.ent_anos.get())
+        for i in self.tree.get_children():
+            self.tree.delete(i)
 
-        valor_futuro = investimento_inicial
-        dados = {"Ano": [], "Valor Futuro": []}
-        aporte_mensal = aporte_mensal_inicial
-        for i in range(anos):
-            for j in range(12):
-                valor_futuro = (valor_futuro + aporte_mensal) * (1 + taxa_juros / 12)
-            dados["Ano"].append(i + 1)
-            dados["Valor Futuro"].append(valor_futuro)
-            aporte_mensal *= (1 + aumento_aporte_anual / 100)
+        valor_presente = float(self.valor_presente.get().replace(",", "."))
+        taxa_juros = float(self.taxa_juros.get().replace(",", "."))
+        periodo_anos = int(self.periodo_anos.get())
+        aporte_mensal = float(self.aporte_mensal.get().replace(",", "."))
+        aumento_anual = float(self.aumento_mensal.get().replace(",", "."))
 
-        self.tree.delete(*self.tree.get_children())
-        for i in range(anos):
-            for j in range(12):
-                valor_futuro = (valor_futuro + aporte_mensal) * (1 + taxa_juros / 12)
-            dados["Ano"].append(i + 1)
-            dados["Valor Futuro"].append(valor_futuro)
-            aporte_mensal *= (1 + aumento_aporte_anual / 100)
-            self.tree.insert("", "end", text="", values=(i + 1, valor_futuro))
+        valores = []
+        valor_inicial = valor_presente
+        for i in range(1, periodo_anos+1):
+            juros = valor_inicial * taxa_juros / 100
+            valor_final = valor_inicial + juros
+            valores.append((i, valor_inicial, aporte_mensal * 12, juros, valor_final))
+            
+            for mes in range(12):
+                valor_inicial += aporte_mensal
+                aporte_mensal *= 1 + aumento_anual / 100
+            
+            valor_inicial = valor_final
 
-        messagebox.showinfo("Investimento", "O investimento foi calculado e salvo com sucesso.")
+        self.valor_futuro.config(text="{:.2f}".format(valor_final))
 
+        for valor in valores:
+            self.tree.insert("", "end", values=valor)
 
 root = tk.Tk()
-gui = InvestimentoGUI(root)
+app = InvestimentoGUI(root)
 root.mainloop()
