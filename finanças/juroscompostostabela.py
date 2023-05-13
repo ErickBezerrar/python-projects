@@ -38,8 +38,9 @@ class InvestimentoGUI:
         self.aporte_mensal.grid(column=1, row=3)
 
         ttk.Label(frame, text="Aumento Anual (%):").grid(column=0, row=4, sticky="w")
-        self.aumento_anual = ttk.Entry(frame)
-        self.aumento_anual.grid(column=1, row=4)
+        self.aumento_mensal = ttk.Entry(frame)
+        self.aumento_mensal.grid(column=1, row=4)
+
 
         ttk.Label(frame, text="Valor Futuro:").grid(column=0, row=5, sticky="w")
         self.valor_futuro = ttk.Label(frame, text="")
@@ -55,33 +56,34 @@ class InvestimentoGUI:
         self.tree.grid(column=0, row=7, columnspan=2)
 
 
-    def calcular(self):
-        for i in self.tree.get_children():
-            self.tree.delete(i)
+        def calcular(self):
+            for i in self.tree.get_children():
+                self.tree.delete(i)
 
-        valor_presente = float(self.valor_presente.get().replace(",", "."))
-        taxa_juros = float(self.taxa_juros.get().replace(",", "."))
-        periodo_anos = int(self.periodo_anos.get())
-        aporte_mensal = float(self.aporte_mensal.get().replace(",", "."))
-        aumento_anual = float(self.aumento_mensal.get().replace(",", "."))
+            valor_presente = float(self.valor_presente.get().replace(",", "."))
+            taxa_juros = float(self.taxa_juros.get().replace(",", "."))
+            periodo_anos = int(self.periodo_anos.get())
+            aporte_mensal = float(self.aporte_mensal.get().replace(",", "."))
+            aumento_anual = float(self.aumento_anual.get().replace(",", "."))
 
-        valores = []
-        valor_inicial = valor_presente
-        for i in range(1, periodo_anos+1):
-            juros = valor_inicial * taxa_juros / 100
-            valor_final = valor_inicial + juros
-            valores.append((i, valor_inicial, aporte_mensal * 12, juros, valor_final))
-            
-            for mes in range(12):
-                valor_inicial += aporte_mensal
-                aporte_mensal *= 1 + aumento_anual / 100
-            
-            valor_inicial = valor_final
+            valores = []
+            valor_inicial = valor_presente
+            for i in range(1, periodo_anos+1):
+                juros = valor_inicial * taxa_juros / 100
+                valor_final = valor_inicial + juros
+                valores.append((i, valor_inicial, aporte_mensal * 12, juros, valor_final))
+                
+                for mes in range(12):
+                    valor_inicial += aporte_mensal
+                    aporte_mensal *= 1 + aumento_anual / 100
+                
+                valor_inicial = valor_final
 
-        self.valor_futuro.config(text="{:.2f}".format(valor_final))
+            self.valor_futuro.config(text="{:.2f}".format(valor_final))
 
-        for valor in valores:
-            self.tree.insert("", "end", values=valor)
+            for valor in valores:
+                self.tree.insert("", "end", values=valor)
+
 
 root = tk.Tk()
 app = InvestimentoGUI(root)
