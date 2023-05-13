@@ -83,6 +83,11 @@ class InvestimentoGUI:
             valores.append((i, "{:.2f}".format(valor_presente), "{:.2f}".format(aporte_mensal * 12), "{:.2f}".format(juros_ano), "{:.2f}".format(dividendos_ano), "{:.2f}".format(valor_atual)))
             valor_presente = valor_atual
 
+        for v in valores:
+            self.tree.insert("", "end", values=v)
+        self.valor_futuro.config(text="{:.2f}".format(valor_atual))
+
+
 
 
 
