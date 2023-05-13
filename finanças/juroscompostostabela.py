@@ -21,7 +21,7 @@ class InvestimentoGUI:
         frame = ttk.Frame(self.master, padding=10)
         frame.pack(expand=True, fill="both")
 
-        ttk.Label(frame, text="Valor Presente():").grid(column=0, row=0, sticky="w")
+        ttk.Label(frame, text="Valor Inicial():").grid(column=0, row=0, sticky="w")
         self.valor_presente = ttk.Entry(frame)
         self.valor_presente.grid(column=1, row=0)
 
@@ -74,22 +74,23 @@ class InvestimentoGUI:
             return
 
         valores = []
-        valor_inicial = valor_presente
+        valor_atual = valor_presente
         for i in range(1, periodo_anos+1):
-            juros = valor_inicial * taxa_juros / 100
-            valor_final = valor_inicial + juros
-            valores.append((i, valor_inicial, aporte_mensal * 12, juros, valor_final))
-
+            juros_ano = 0
             for mes in range(12):
-                valor_inicial += aporte_mensal
+                juros_mes = (valor_atual + aporte_mensal * mes) * (taxa_juros / 100 / 12)
+                juros_ano += juros_mes
+                valor_atual += aporte_mensal + juros_mes
                 aporte_mensal *= 1 + aumento_mensal / 100
 
-            valor_inicial = valor_final
+            valores.append((i, "{:.2f}".format(valor_presente), "{:.2f}".format(aporte_mensal * 12), "{:.2f}".format(juros_ano), "{:.2f}".format(valor_atual)))
+            valor_presente = valor_atual
 
-        self.valor_futuro.config(text="{:.2f}".format(valor_final))
+        self.valor_futuro.config(text="{:.2f}".format(valor_atual))
 
         for valor in valores:
             self.tree.insert("", "end", values=valor)
+
 
 
 root = tk.Tk()
