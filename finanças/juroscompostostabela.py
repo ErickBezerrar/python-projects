@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
-import ttkthemes as tkthemes
+import ttkthemes as ttkthemes
 
 
 class InvestimentoGUI:
@@ -16,16 +16,18 @@ class InvestimentoGUI:
         style.configure("TEntry", padding=5, relief="flat")
         style.configure("TLabel", padding=5)
 
+        style = ttk.Style(self.master)
         style.theme_use("clam")
+
 
         frame = ttk.Frame(self.master, padding=10)
         frame.pack(expand=True, fill="both")
 
-        ttk.Label(frame, text="Valor Inicial():").grid(column=0, row=0, sticky="w")
+        ttk.Label(frame, text="Valor Inicial:").grid(column=0, row=0, sticky="w")
         self.valor_presente = ttk.Entry(frame)
         self.valor_presente.grid(column=1, row=0)
 
-        ttk.Label(frame, text="Taxa de Juros (%):").grid(column=0, row=1, sticky="w")
+        ttk.Label(frame, text="Taxa de Juros:").grid(column=0, row=1, sticky="w")
         self.taxa_juros = ttk.Entry(frame)
         self.taxa_juros.grid(column=1, row=1)
 
@@ -43,12 +45,13 @@ class InvestimentoGUI:
 
         ttk.Button(frame, text="Calcular", command=self.calcular).grid(column=1, row=5, pady=10)
 
-        columns = ("Ano", "Valor Inicial", "Aportes", "Juros", "Dividendos", "Valor Final")
+        columns = ("Ano", "Valor Inicial(Ano)", "Aportes(Anual)", "Juros", "Dividendos(Mensais)", "Valor Final(Ano)")
         self.tree = ttk.Treeview(frame, show="headings", columns=columns, height=15)
         for col in columns:
             self.tree.heading(col, text=col.title())
             self.tree.column(col, width=150, anchor="w")
         self.tree.grid(column=0, row=6, columnspan=2)
+
 
 
 
