@@ -8,7 +8,7 @@ class InvestimentoGUI:
     def __init__(self, master):
         self.master = master
         self.master.title("Cálculo de Juros Compostos")
-        self.master.geometry("800x600")
+        self.master.geometry("1024x600")
         self.master.resizable(True, True)
 
         style = ttk.Style(self.master)
@@ -37,23 +37,20 @@ class InvestimentoGUI:
         self.aporte_mensal = ttk.Entry(frame)
         self.aporte_mensal.grid(column=1, row=3)
 
-        ttk.Label(frame, text="Aumento Anual (%):").grid(column=0, row=4, sticky="w")
-        self.aumento_mensal = ttk.Entry(frame)
-        self.aumento_mensal.grid(column=1, row=4)
-
-
-        ttk.Label(frame, text="Valor Futuro:").grid(column=0, row=5, sticky="w")
+        ttk.Label(frame, text="Valor Futuro:").grid(column=0, row=4, sticky="w")
         self.valor_futuro = ttk.Label(frame, text="")
-        self.valor_futuro.grid(column=1, row=5)
+        self.valor_futuro.grid(column=1, row=4)
 
-        ttk.Button(frame, text="Calcular", command=self.calcular).grid(column=1, row=6, pady=10)
+        ttk.Button(frame, text="Calcular", command=self.calcular).grid(column=1, row=5, pady=10)
 
-        columns = ("Ano", "Valor Inicial", "Aportes", "Juros", "Valor Final")
+        columns = ("Ano", "Valor Inicial", "Aportes", "Juros", "Dividendos", "Valor Final")
         self.tree = ttk.Treeview(frame, show="headings", columns=columns)
         for col in columns:
             self.tree.heading(col, text=col.title())
-            self.tree.column(col, width=120, anchor="w")
-        self.tree.grid(column=0, row=7, columnspan=2)
+            self.tree.column(col, width=150, anchor="w")
+        self.tree.grid(column=0, row=6, columnspan=2)
+
+
 
     def calcular(self):
         for i in self.tree.get_children():
@@ -64,12 +61,11 @@ class InvestimentoGUI:
             taxa_juros = float(self.taxa_juros.get().replace(",", "."))
             periodo_anos = int(self.periodo_anos.get())
             aporte_mensal = float(self.aporte_mensal.get().replace(",", "."))
-            aumento_mensal = float(self.aumento_mensal.get().replace(",", "."))
         except ValueError:
             messagebox.showerror("Erro", "Por favor, preencha todos os campos corretamente.")
             return
 
-        if valor_presente <= 0 or taxa_juros <= 0 or periodo_anos <= 0 or aporte_mensal < 0 or aumento_mensal < 0:
+        if valor_presente <= 0 or taxa_juros <= 0 or periodo_anos <= 0 or aporte_mensal < 0:
             messagebox.showerror("Erro", "Por favor, preencha todos os campos corretamente.")
             return
 
@@ -81,15 +77,12 @@ class InvestimentoGUI:
                 juros_mes = (valor_atual + aporte_mensal * mes) * (taxa_juros / 100 / 12)
                 juros_ano += juros_mes
                 valor_atual += aporte_mensal + juros_mes
-                aporte_mensal *= 1 + aumento_mensal / 100
 
-            valores.append((i, "{:.2f}".format(valor_presente), "{:.2f}".format(aporte_mensal * 12), "{:.2f}".format(juros_ano), "{:.2f}".format(valor_atual)))
+            dividendos_ano = juros_ano / 12  # Novo cálculo dos dividendos mensais
+
+            valores.append((i, "{:.2f}".format(valor_presente), "{:.2f}".format(aporte_mensal * 12), "{:.2f}".format(juros_ano), "{:.2f}".format(dividendos_ano), "{:.2f}".format(valor_atual)))
             valor_presente = valor_atual
 
-        self.valor_futuro.config(text="{:.2f}".format(valor_atual))
-
-        for valor in valores:
-            self.tree.insert("", "end", values=valor)
 
 
 
