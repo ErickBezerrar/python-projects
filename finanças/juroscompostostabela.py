@@ -1,8 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
-from tkinter import messagebox
 import ttkthemes as ttkthemes
-
+from tkinter import messagebox
 
 class InvestimentoGUI:
     def __init__(self, master):
@@ -16,8 +15,9 @@ class InvestimentoGUI:
         style.configure("TEntry", padding=5, relief="flat")
         style.configure("TLabel", padding=5)
 
-        style = ttk.Style(self.master)
-        style.theme_use("clam")
+        # Aqui definimos o estilo do tema
+        style = ttkthemes.ThemedStyle(self.master)
+        style.set_theme("equilux")
 
 
         frame = ttk.Frame(self.master, padding=10)
@@ -43,19 +43,31 @@ class InvestimentoGUI:
         self.valor_futuro = ttk.Label(frame, text="")
         self.valor_futuro.grid(column=1, row=4)
 
-        ttk.Button(frame, text="Calcular", command=self.calcular).grid(column=1, row=5, pady=10)
+        ttk.Button(frame, text="Calcular", command=self.calcular).grid(column=0, row=5, pady=10, padx=11, sticky="e", columnspan=1)
+        ttk.Button(frame, text="Limpar Tabela", command=self.limpar_tabela).grid(column=1, row=5, pady=10, padx=11, sticky="w", columnspan=1)
 
         columns = ("Ano", "Valor Inicial(Ano)", "Aportes(Anual)", "Juros", "Dividendos(Mensais)", "Valor Final(Ano)")
-        self.tree = ttk.Treeview(frame, show="headings", columns=columns, height=15)
+        self.tree = ttk.Treeview(frame, show="headings", columns=columns, height=18)
         for col in columns:
             self.tree.heading(col, text=col.title())
             self.tree.column(col, width=150, anchor="w")
-        self.tree.grid(column=0, row=6, columnspan=2)
+        self.tree.grid(column=0, row=7, columnspan=2)
 
 
+    def limpar_tabela(self):
+        self.tree.delete(*self.tree.get_children())
+
+    def limpar(self):
+        self.valor_inicial_entry.delete(0, tk.END)
+        self.adicao_mensal_entry.delete(0, tk.END)
+        self.taxa_juros_entry.delete(0, tk.END)
+        self.tempo_ano_entry.delete(0, tk.END)
+        self.tree.delete(*self.tree.get_children())
+        
 
 
     def calcular(self):
+        # Limpa a tabela
         for i in self.tree.get_children():
             self.tree.delete(i)
 
@@ -89,11 +101,6 @@ class InvestimentoGUI:
         for v in valores:
             self.tree.insert("", "end", values=v)
         self.valor_futuro.config(text="{:.2f}".format(valor_atual))
-
-
-
-
-
 
 root = tk.Tk()
 app = InvestimentoGUI(root)
