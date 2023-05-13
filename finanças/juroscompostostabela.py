@@ -65,7 +65,7 @@ class InvestimentoGUI:
             messagebox.showerror("Erro", "Por favor, preencha todos os campos corretamente.")
             return
 
-        if valor_presente <= 0 or taxa_juros <= 0 or periodo_anos <= 0 or aporte_mensal < 0:
+        if taxa_juros <= 0 or periodo_anos <= 0 or aporte_mensal < 0:
             messagebox.showerror("Erro", "Por favor, preencha todos os campos corretamente.")
             return
 
@@ -86,6 +86,7 @@ class InvestimentoGUI:
         for v in valores:
             self.tree.insert("", "end", values=v)
         self.valor_futuro.config(text="{:.2f}".format(valor_atual))
+
 
 
 
