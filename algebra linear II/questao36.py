@@ -1,10 +1,9 @@
 import numpy as np
 
-A = np.array([[7, -9, -4, 5, 3, -3, -7],
-              [-4, 6, 7, -2, -6, -5, 5],
-              [5, -7, -6, 5, -6, 2, 8],
-              [-3, 5, 8, -1, -7, -4, 8],
-              [6, -8, -5, 4, 4, 9, 3]])
+J = np.random.randint(1, 11, size=(6, 4))
+K = np.random.randint(1, 11, size=(4, 7))
+
+A = np.matmul(J, K)
 
 rref_A = np.linalg.matrix_rank(A)
 print("Rank of A:", rref_A)
@@ -12,7 +11,7 @@ print("Rank of A:", rref_A)
 # A) Construct matrices C and N whose columns form bases for Col A and Nul A, respectively,
 # and construct a matrix R whose rows form a basis for Row A.
 
-C = A[:, [0, 1, 3, 5]]
+C = A[:, 0:4]
 N = np.linalg.null_space(A)
 R = A[0:4, :]
 
