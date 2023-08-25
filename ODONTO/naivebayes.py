@@ -1,19 +1,24 @@
-confusion_matrix_NB = [[383, 86],
-                        [45, 102]]
+matrix = [[383, 86],
+          [45, 102]]
 
 
-vp = confusion_matrix_NB[0][0]
-vn = confusion_matrix_NB[1][1]
-fn = confusion_matrix_NB[1][0]
-fp = confusion_matrix_NB[0][1]
+vp = matrix[0][0]
+vn = matrix[1][1]
+fn = matrix[1][0]
+fp = matrix[0][1]
 
 
-def accuracy():
+def accuracy(matrix):
+
+    vp = matrix[0][0]
+    vn = matrix[1][1]
+    fn = matrix[1][0]
+    fp = matrix[0][1]  
     return ((vp + vn)/(vp + fp + fn + vn)) * 100
-print("função accuracy: ", accuracy())
+print("função accuracy: ", accuracy(matrix))
 
 
-def precision():
+def precision(matrix):
     return vp/(vp + fp) 
 print("função precision: ", precision())
 
