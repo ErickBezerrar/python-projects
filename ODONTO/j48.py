@@ -1,26 +1,39 @@
-confusion_matrix_J48 = [[455, 14],
-                    [50, 97]]
+def accuracy(conf_matrix):
+    vp = conf_matrix[0][0]
+    vn = conf_matrix[1][1]
+    fn = conf_matrix[1][0]
+    fp = conf_matrix[0][1]
+    
+    acc = ((vp + vn) / (vp + fp + fn + vn)) * 100
+    return acc
 
-vp = confusion_matrix_J48[0][0]
-vn = confusion_matrix_J48[1][1]
-fn = confusion_matrix_J48[1][0]
-fp = confusion_matrix_J48[0][1]
+def precision(conf_matrix):
+    vp = conf_matrix[0][0]
+    fp = conf_matrix[0][1]
+    
+    prec = vp / (vp + fp)
+    return prec
 
+def recall(conf_matrix):
+    vp = conf_matrix[0][0]
+    fn = conf_matrix[1][0]
+    
+    rec = vp / (vp + fn)
+    return rec
 
-def accuracy():
-    return ((vp + vn)/(vp + fp + fn + vn)) * 100
-print("função accuracy: ", accuracy())
+def f1_score(conf_matrix):
+    prec = precision(conf_matrix)
+    rec = recall(conf_matrix)
+    
+    f1 = (2 * prec * rec) / (prec + rec)
+    return f1
 
+confusion_matrix_J48 = [
+    [455, 14],
+    [50, 97]
+]
 
-def precision():
-    return vp/(vp + fp) 
-print("função precision: ", precision())
-
-def recall():
-    return vp/(vp + fn)
-print("função recall: ", recall())
-
-
-def f1_score():
-    return (2 * precision() * recall())/(precision() + recall())
-print("função f1-score: ", f1_score())
+print("Accuracy:", accuracy(confusion_matrix_J48))
+print("Precision:", precision(confusion_matrix_J48))
+print("Recall:", recall(confusion_matrix_J48))
+print("F1-score:", f1_score(confusion_matrix_J48))

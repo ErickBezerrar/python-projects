@@ -1,32 +1,39 @@
-matrix = [[383, 86],
-          [45, 102]]
+def accuracy(matriz_confusao):
+    vp = matriz_confusao[0][0]  
+    vn = matriz_confusao[1][1]  
+    fn = matriz_confusao[1][0]  
+    fp = matriz_confusao[0][1]  
+    
+    acc = ((vp + vn) / (vp + fp + fn + vn)) * 100
+    return acc
 
+def precision(matriz_confusao):
+    vp = matriz_confusao[0][0]  
+    fp = matriz_confusao[0][1]  
+    
+    prec = vp / (vp + fp)
+    return prec
 
-vp = matrix[0][0]
-vn = matrix[1][1]
-fn = matrix[1][0]
-fp = matrix[0][1]
+def recall(matriz_confusao):
+    vp = matriz_confusao[0][0]  
+    fn = matriz_confusao[1][0]  
+    
+    rec = vp / (vp + fn)
+    return rec
 
+def f1_score(matriz_confusao):
+    prec = precision(matriz_confusao)
+    rec = recall(matriz_confusao)
+    
+    f1 = (2 * prec * rec) / (prec + rec)
+    return f1
 
-def accuracy(matrix):
+matriz = [
+    [383, 86],
+    [45, 102]
+]
 
-    vp = matrix[0][0]
-    vn = matrix[1][1]
-    fn = matrix[1][0]
-    fp = matrix[0][1]  
-    return ((vp + vn)/(vp + fp + fn + vn)) * 100
-print("função accuracy: ", accuracy(matrix))
-
-
-def precision(matrix):
-    return vp/(vp + fp) 
-print("função precision: ", precision())
-
-def recall():
-    return vp/(vp + fn)
-print("função recall: ", recall())
-
-
-def f1_score():
-    return (2 * precision() * recall())/(precision() + recall())
-print("função f1-score: ", f1_score())
+print("Acurácia:", accuracy(matriz))
+print("Precisão:", precision(matriz))
+print("Recall:", recall(matriz))
+print("Pontuação F1:", f1_score(matriz))
