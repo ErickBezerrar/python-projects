@@ -33,7 +33,7 @@ matriz = [
     [45, 102]
 ]
 
-print("Acurácia:", accuracy(matriz))
-print("Precisão:", precision(matriz))
+print("Accuracy:", accuracy(matriz))
+print("Precisionn:", precision(matriz))
 print("Recall:", recall(matriz))
-print("Pontuação F1:", f1_score(matriz))
+print("F1-score:", f1_score(matriz))
